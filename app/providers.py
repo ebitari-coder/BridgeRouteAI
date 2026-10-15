@@ -1786,6 +1786,7 @@ async def smart_stream(
     created_ts = created_ts or int(time.time())
     candidates = _candidate_list(model, plan)
     tried: list[str] = []
+    _LAST_FALLBACK_CHAIN = []
 
     for i, (provider, try_model) in candidates:
         model_h = get_model_health(try_model)
@@ -1798,6 +1799,7 @@ async def smart_stream(
         explicit_first = i == 0 and model not in (kilo.AUTO_MODEL, cf.CLOUDFLARE_AUTO_MODEL)
         if not explicit_first and (not provider_h.is_healthy or not model_h.is_healthy):
             tried.append(f"{provider}:{try_model} (skipped: breaker open)")
+            _LAST_FALLBACK_CHAIN.append({"model": try_model, "provider": provider, "status": "skipped_breaker"})
             continue
 
         tried.append(f"{provider}:{try_model}")

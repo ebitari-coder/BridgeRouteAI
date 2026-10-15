@@ -190,6 +190,8 @@ async def log_request(
     tokens_used: int | None = None,
     request_payload: dict | None = None,
     response_payload: str | None = None,
+    combo_history: list | None = None,
+    fallback_chain: list | None = None,
 ) -> DBRequestLog:
     entry = DBRequestLog(
         method=method,
@@ -203,6 +205,8 @@ async def log_request(
         tokens_used=tokens_used,
         request_payload=request_payload,
         response_payload=response_payload,
+        combo_history=combo_history,
+        fallback_chain=fallback_chain,
     )
     db.add(entry)
     await db.flush()

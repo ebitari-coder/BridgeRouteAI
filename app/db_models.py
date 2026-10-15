@@ -94,6 +94,8 @@ class DBRequestLog(Base):
     # Redacted + truncated snapshots for replay/debugging of failed requests.
     request_payload = Column(JSONB, nullable=True)
     response_payload = Column(Text, nullable=True)
+    combo_history = Column(JSONB, nullable=True)
+    fallback_chain = Column(JSONB, nullable=True)
 
     __table_args__ = (
         Index("ix_request_logs_timestamp_status", "timestamp", "status_code"),

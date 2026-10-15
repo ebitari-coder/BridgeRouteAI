@@ -96,6 +96,8 @@ class RequestLoggingMiddleware(BaseHTTPMiddleware):
                     tokens_used=getattr(request.state, "tokens_used", None),
                     request_payload=request_payload,
                     response_payload=response_payload,
+                    combo_history=getattr(request.state, "combo_history", None),
+                    fallback_chain=getattr(request.state, "fallback_chain", None),
                 )
                 await db.commit()
         except Exception as e:

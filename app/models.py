@@ -300,6 +300,8 @@ class RequestLog(BaseModel):
     # Replay/debugging snapshots (bounded, redacted)
     request_payload: Optional[dict] = None
     response_payload: Optional[str] = None
+    combo_history: Optional[list] = None
+    fallback_chain: Optional[list] = None
 
 
 class RequestLogListResponse(BaseModel):

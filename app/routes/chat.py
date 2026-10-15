@@ -475,6 +475,21 @@ async def _run_agentic_nonstream(request: Request, body: ChatCompletionRequest, 
         affinity_key,
         result.history[-1].provider if result.history else None,
     )
+    # Expose per-iteration trace + fallback chain to request logging middleware
+    try:
+        request.state.combo_history = [{
+            "iteration": s.iteration, "model": s.model, "provider": s.provider,
+            "input_tokens": s.input_tokens, "output_tokens": s.output_tokens,
+            "stop_reason": s.stop_reason,
+            "tool_calls": [{"name": tc["function"]["name"], "arguments": tc["function"]["arguments"]}
+                           for tc in (s.tool_calls or [])] if s.tool_calls else None,
+        } for s in (result.history or [])]
+        request.state.fallback_chain = [
+            {"model": s.model, "provider": s.provider, "status": s.stop_reason or "unknown"}
+            for s in (result.history or [])
+        ]
+    except Exception:
+        pass
 
     # Persist session after run
     if session_id:

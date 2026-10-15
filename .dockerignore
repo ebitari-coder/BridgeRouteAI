@@ -1,0 +1,17 @@
+# Never bake secrets or local state into the image.
+# Runtime configuration is injected by docker-compose (env_file).
+.env
+.env.*
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.mypy_cache/
+.pytest_cache/
+.git/
+.gitignore
+.dockerignore
+docker-compose*.yml
+Dockerfile
+*.md

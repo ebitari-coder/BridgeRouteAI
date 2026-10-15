@@ -1,0 +1,172 @@
+{
+ "version": 1,
+ "tasks": [
+  {
+   "id": "calc-basic",
+   "name": "Basic arithmetic via calculate tool",
+   "messages": [
+    {
+     "role": "user",
+     "content": "What is 17 * 23? Use the calculate tool and answer with just the number."
+    }
+   ],
+   "expect_substrings": [
+    "391"
+   ],
+   "expect_regex": null,
+   "tools_allowed": [
+    "calculate"
+   ],
+   "max_iterations": 4,
+   "loop_strategy": "sequential"
+  },
+  {
+   "id": "calc-sum",
+   "name": "Sum of primes under 20",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Compute the sum of all prime numbers less than 20. Use calculate if helpful. Reply with only the number."
+    }
+   ],
+   "expect_substrings": [
+    "77"
+   ],
+   "expect_regex": null,
+   "tools_allowed": [
+    "calculate"
+   ],
+   "max_iterations": 4,
+   "loop_strategy": "sequential"
+  },
+  {
+   "id": "reason-syllogism",
+   "name": "Short deductive reasoning",
+   "messages": [
+    {
+     "role": "user",
+     "content": "All cats are mammals. All mammals are animals. Therefore cats are what? Answer with one word."
+    }
+   ],
+   "expect_substrings": [
+    "animal"
+   ],
+   "expect_regex": null,
+   "tools_allowed": [],
+   "max_iterations": 3,
+   "loop_strategy": "sequential"
+  },
+  {
+   "id": "json-struct",
+   "name": "Structured JSON answer",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Return a JSON object with keys city and country for Paris. Do not add markdown fences."
+    }
+   ],
+   "expect_substrings": [
+    "city",
+    "Paris",
+    "France"
+   ],
+   "expect_regex": "\"city\"\\s*:",
+   "tools_allowed": [],
+   "max_iterations": 3,
+   "loop_strategy": "sequential"
+  },
+  {
+   "id": "instruction-follow",
+   "name": "Explicit format instruction",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Reply exactly with the token BRIDGE-OK and nothing else."
+    }
+   ],
+   "expect_substrings": [
+    "BRIDGE-OK"
+   ],
+   "expect_regex": null,
+   "tools_allowed": [],
+   "max_iterations": 2,
+   "loop_strategy": "sequential"
+  },
+  {
+   "id": "tool-echo",
+   "name": "Tool use with echo_test",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Call the echo_test tool with message=CACHE-ME then tell me the echoed value."
+    }
+   ],
+   "expect_substrings": [
+    "CACHE-ME"
+   ],
+   "expect_regex": null,
+   "tools_allowed": [
+    "echo_test"
+   ],
+   "max_iterations": 4,
+   "loop_strategy": "sequential"
+  },
+  {
+   "id": "calc-negative",
+   "name": "Negative arithmetic via calculate tool",
+   "messages": [
+    {
+     "role": "user",
+     "content": "What is -7 * -6? Use the calculate tool and answer with just the number."
+    }
+   ],
+   "expect_substrings": [
+    "42"
+   ],
+   "expect_regex": null,
+   "tools_allowed": [
+    "calculate"
+   ],
+   "max_iterations": 4,
+   "loop_strategy": "sequential"
+  },
+  {
+   "id": "echo-strict-args",
+   "name": "Tool args passed verbatim (echo_test)",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Call the echo_test tool with message exactly 'bridge-ok', then reply with the echoed message only."
+    }
+   ],
+   "expect_substrings": [
+    "bridge-ok"
+   ],
+   "expect_regex": null,
+   "tools_allowed": [
+    "echo_test"
+   ],
+   "max_iterations": 4,
+   "loop_strategy": "sequential"
+  },
+  {
+   "id": "tool-choice-required",
+   "name": "Escalation + required tool choice (agentic contract)",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Compute 11 + 13 using the calculate tool."
+    }
+   ],
+   "expect_substrings": [
+    "24"
+   ],
+   "expect_regex": null,
+   "tools_allowed": [
+    "calculate"
+   ],
+   "max_iterations": 4,
+   "loop_strategy": "sequential"
+  }
+ ]
+}

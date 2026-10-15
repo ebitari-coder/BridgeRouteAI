@@ -1,0 +1,19 @@
+name: eval-regression-gate
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "0 3 * * *"  # nightly 03:00 UTC
+jobs:
+  evals:
+    runs-on: ubuntu-latest
+    env:
+      EVAL_BASE_URL: ${{ secrets.EVAL_BASE_URL }}
+      EVAL_API_KEY: ${{ secrets.EVAL_API_KEY }}
+      EVAL_COMBO_ID: ${{ secrets.EVAL_COMBO_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: pip install httpx
+      - run: python ci/run_evals.py --min-pass 1.0

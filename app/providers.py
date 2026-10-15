@@ -1929,10 +1929,14 @@ async def smart_stream(
             continue
 
     # All models exhausted
+    logger.warning(
+        "Exhausted %d candidates for %s: %s",
+        len(tried), model, ", ".join(tried),
+    )
     yield _error_frame(
-        f"All providers exhausted. Tried: {', '.join(tried)}. Retry in 30s.",
-        "rate_limit_error",
-        "all_providers_exhausted",
+        "The selected model is temporarily unavailable. Please retry in a few moments.",
+        "service_unavailable",
+        "model_overloaded",
     )
     yield "data: [DONE]\n\n"
 
@@ -2102,8 +2106,12 @@ async def smart_collect(
         # Non-retryable upstream error: report it as-is.
         return "", actual_model, error
 
+    logger.warning(
+        "Exhausted %d candidates for %s: %s",
+        len(tried), model, ", ".join(tried),
+    )
     return "", model, {
-        "message": f"All providers exhausted. Tried: {', '.join(tried)}. Retry in 30s.",
-        "type": "rate_limit_error",
-        "code": "all_providers_exhausted",
+        "message": "The selected model is temporarily unavailable. Please retry in a few moments.",
+        "type": "service_unavailable",
+        "code": "model_overloaded",
     }
